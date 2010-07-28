@@ -1,0 +1,10 @@
+
+
+.ui-addtocal {
+  cursor:pointer;cursor:hand;
+}
+
+ul.ui-addtocal {
+  cursor:default;
+  position:absolute;
+}
