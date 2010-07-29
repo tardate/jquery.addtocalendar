@@ -35,9 +35,9 @@
         var 
           title = ( eventDetails.title ? encodeURIComponent( eventDetails.title ) : '' ),
           start = ( typeof eventDetails.start.toRFC3339UTCString == 'function' ?
-            eventDetails.start.toRFC3339UTCString(true,true) : ''),
+            eventDetails.start.toRFC3339UTCString(true,true) : eventDetails.start ),
           end = ( typeof  eventDetails.end.toRFC3339UTCString == 'function' ?
-            eventDetails.end.toRFC3339UTCString(true,true) : ''),
+            eventDetails.end.toRFC3339UTCString(true,true) : eventDetails.end ),
           location = ( eventDetails.location ? encodeURIComponent( eventDetails.location ) : '' ),
           details = ( eventDetails.details ? encodeURIComponent( eventDetails.details ) : '' ),
           url = ( eventDetails.url ? encodeURIComponent( eventDetails.url ) : '' );
