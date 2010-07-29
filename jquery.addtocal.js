@@ -1,18 +1,12 @@
 /*
- * jQuery.weekCalendar v2.0-dev
+ * jQuery.addtocal v1.0-dev
  *
- * for support join us at the google group: http://groups.google.com/group/jquery-week-calendar
- * have a look to the wiki for documentation: http://wiki.github.com/themouette/jquery-week-calendar/
- * something went bad ? report an issue: http://github.com/themouette/jquery-week-calendar/issues
- * get the last version on github: http://github.com/themouette/jquery-week-calendar
- *
- * Copyright (c) 2009 Rob Monie
- * Copyright (c) 2010 Julien MUETTON
- * Dual licensed under the MIT and GPL licenses:
+ * 
+ * Copyright (c) 2010 Paul GALLAGHER
+ * Dual licensed under the MIT or GPL Version 2 licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *   
- *   If you're after a monthly calendar plugin, check out http://arshaw.com/fullcalendar/
  */
 
 (function($) {
@@ -21,16 +15,50 @@
   {
 		options: {
 		appendTo: "body",
-		delay: 300,
-		minLength: 1,
 		position: {
 			my: "left top",
 			at: "left bottom",
 			collision: "none"
 		},
-		source: null,
+		start: function( element ) {
+		},
+		end: function( element ) {
+		},
+		title: function( element ) {
+		  return 'test';
+		},
+		details: function( element ) {
+		},
+		location: function( element ) {
+		},
+		url: function( element ) {
+		},
 		select: function(event, ui) {
-      alert( ui.item.label );
+      var url;
+      switch(ui.item.value)
+      {
+      case 1: //google
+        url = "http://www.google.com/calendar/event?action=TEMPLATE&text=" + ui.title + "&dates=STARTDATE/ENDDATE" +
+        "&location=VENUE&details=FULL BAND LIST&trp=false&sprop=LINK TO LMS GIG PAGE&sprop=name:LEEDS MUSIC SCENE";
+        break;
+      case 2:// yahoo 
+        url="http://calendar.yahoo.com/?v=60&DUR=0400&TITLE=" + ui.title + "&ST=STARTTIME" +
+      "&in_loc=VENUE&DESC=FULL BAND LIST&URL=LINK TO LMS GIG PAGE";
+        break;
+      case 3:// live 
+        url ="http://calendar.live.com/calendar/calendar.aspx?rru=addevent&dtstart=20090106T190000Z&dtend=20090106T200000Z&summary=" + ui.title + "&location=location";
+        break;
+      case 4:// 30boxes 
+        url="http://30boxes.com/add.php?webcal=webcal://LINKTOICALFILE";
+        break;
+      case 5:// iCal 
+        url="webcal://LINKTOICALFILE";
+        break;
+      default:
+        
+      }
+
+      window.open(url, '_blank');
     },
 	},
 	_create: function() {
@@ -39,7 +67,7 @@
 		this.element
 			.addClass( "ui-addtocal" )
 			.bind( "click.addtocal", function( event ) {
-			  self.showMenu();
+			  self.toggleMenu();
 			});
 		this._initSource();
 
@@ -64,9 +92,16 @@
 						self.previous = previous;
 					}
 
-					if ( false !== self._trigger( "select", event, { item: item } ) ) {
-						// TODO handle add-to-cal: self.element.val( item.value );
-					}
+					self._trigger( "select", event, 
+					  { 
+					    item: item, 
+					    title: self.options.title( self ) ,
+					    start: self.options.start( self ) ,
+					    end: self.options.end( self ) ,
+					    details: self.options.details( self ) ,
+					    location: self.options.location( self ) ,
+					    url: self.options.url( self )
+					  } );
 
 					self.close( event );
 					self.selectedItem = item;
@@ -91,21 +126,24 @@
 
 	_setOption: function( key, value ) {
 		$.Widget.prototype._setOption.apply( this, arguments );
-		if ( key === "source" ) {
-			this._initSource();
-		}
 		if ( key === "appendTo" ) {
 			this.menu.element.appendTo( $( value || "body", this.element[0].ownerDocument )[0] )
 		}
 	},
 
 	_initSource: function() {
-		this.source = this.options.source;
+		this.source = [ 
+		  {value: 1, label:"Add to Google Calendar"}, 
+		  {value: 2, label:"Add to Live Calendar"}, 
+		  {value: 3, label:"Add to Yahoo! Calendar"}, 
+		  {value: 2, label:"Add to 30boxes"}, 
+	    {value: 4, label:"iCal" } ];
 	},
-	showMenu: function( event ) {
-	  content = [ {value: 1, label:"Add to Google Calendar"}, {value: 2, label:"Add to Yahoo! Calendar"}, 
-	    {value: 3, label:"iCal" } ] ;
-		if ( content.length ) {
+	 
+	toggleMenu: function( event ) {
+	  content = this.source;
+		if ( content.length && ! ( this.menu.element.is(":visible") ) ) {
+		  $('.ui-addtocal').addtocal( 'close' );
 			content = this._normalize( content );
 			this._suggest( content );
 			this._trigger( "open" );
@@ -175,19 +213,6 @@
 			.appendTo( ul );
 	},
 
-	_move: function( direction, event ) {
-		if ( !this.menu.element.is(":visible") ) {
-			this.showMenu( event );
-			return;
-		}
-		if ( this.menu.first() && /^previous/.test(direction) ||
-				this.menu.last() && /^next/.test(direction) ) {
-			this.element.val( this.term );
-			this.menu.deactivate();
-			return;
-		}
-		this.menu[ direction ]( event );
-	},
 
 	widget: function() {
 		return this.menu.element;
