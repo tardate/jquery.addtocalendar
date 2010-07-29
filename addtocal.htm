@@ -1,46 +1,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
+  <title>jquery.addtocal Demo</title>
 	<link rel='stylesheet' type='text/css' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/south-street/jquery-ui.css' />
 	<link rel='stylesheet' type='text/css' href='jquery.addtocal.css' />
-<style type='text/css'>
-
-	body {
-		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-		margin: 0 30px;
-	}
-	
-	h1 {
-		margin: 0 0 1em;
-		padding: 0.5em;
-	}
-	
-	p.description {
-		font-size: 0.8em;
-		padding: 1em;
-		position: absolute;
-		top: 3.2em;
-		margin-right: 400px;
-	}
-	
-	#message {
-		font-size: 0.7em;
-		position: absolute;
-		top: 1em; 
-		right: 1em;
-		width: 350px;
-		display: none;
-		padding: 1em;
-		background: #ffc;
-		border: 1px solid #dda;
-	}
-	
-	div.addtocal {
-	 display: inline-block;
-	 width: 220px;
-	}
-	
-</style>
+  <style type='text/css'>
+  
+  	body {
+  		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+  		margin: 0 30px;
+  	}
+  	
+  	h1 {
+  		margin: 0 0 1em;
+  		padding: 0.5em;
+  	}
+  	
+  	p.description {
+  		font-size: 0.8em;
+  		padding: 1em;
+  		position: absolute;
+  		top: 3.2em;
+  		margin-right: 400px;
+  	}
+  
+  	div.addtocal {
+  	 background-color:#EFEFEF;
+  	 display: inline-block;
+  	 margin:0 1em;
+  	 padding:10px;
+  	 text-align:center;
+  	 width: 220px;
+  	}
+  	
+  </style>
 
   <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
   <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js'></script>
@@ -52,10 +45,14 @@
   $(document).ready(function() {
   
     $('.addtocal').addtocal({
+      webcalProvided:false,
       getEventDetails: function( element ) {
+        var start = new Date();
+        var end = new Date();
+        end.setTime(end.getTime() + 60 * 60 * 1000);
         return { 
           webcalurl: 'webcal://', 
-          start: new Date(), end: new Date(), 
+          start: start, end: end, 
           title: element.attr('id'), details: element.html(), 
           location: null, url: null};
       },

@@ -21,6 +21,7 @@
         collision: "none"
       },
       selectedCalendarTarget: null,
+      webcalProvided: true,
       getEventDetails: function( element ) {
         return { 
           webcalurl: 'webcal://', 
@@ -33,6 +34,10 @@
         var eventDetails = ui.getEventDetails($(this));
         var 
           title = ( eventDetails.title ? encodeURIComponent( eventDetails.title ) : '' ),
+          start = ( typeof eventDetails.start.toRFC3339UTCString == 'function' ?
+            eventDetails.start.toRFC3339UTCString(true,true) : ''),
+          end = ( typeof  eventDetails.end.toRFC3339UTCString == 'function' ?
+            eventDetails.end.toRFC3339UTCString(true,true) : ''),
           location = ( eventDetails.location ? encodeURIComponent( eventDetails.location ) : '' ),
           details = ( eventDetails.details ? encodeURIComponent( eventDetails.details ) : '' ),
           url = ( eventDetails.url ? encodeURIComponent( eventDetails.url ) : '' );
@@ -41,8 +46,8 @@
         case 1: //google
           link = "http://www.google.com/calendar/event?action=TEMPLATE&trp=false" +
           "&text=" + title + 
-          "&dates=" + eventDetails.start.toRFC3339UTCString(true,true) + 
-          "/" + eventDetails.end.toRFC3339UTCString(true,true) +
+          "&dates=" + start + 
+          "/" + end +
           "&location=" + location +
           "&details=" + details +
           "&sprop=" + url;
@@ -51,15 +56,15 @@
           link="http://calendar.yahoo.com/?v=60" + 
           "&DUR=0400" +
           "&TITLE=" + title + 
-          "&ST=" + eventDetails.start.toRFC3339UTCString(true,true) +  
+          "&ST=" + start +  
           "&in_loc=" + location +
           "&DESC=" + details +
           "&URL=" + url;
           break;
         case 3:// live 
           link="http://calendar.live.com/calendar/calendar.aspx?rru=addevent" +
-          "&dtstart=" + eventDetails.start.toRFC3339UTCString(true,true) +
-          "&dtend=" + eventDetails.end.toRFC3339UTCString(true,true) +
+          "&dtstart=" + start +
+          "&dtend=" + end +
           "&summary=" + title + 
           "&location=" + location;
           break;
@@ -134,9 +139,8 @@
       this.source = [ 
         {value: 1, label:"Add to Google Calendar"}, 
         {value: 2, label:"Add to Live Calendar"}, 
-        {value: 3, label:"Add to Yahoo! Calendar"}, 
-        {value: 4, label:"Add to 30boxes"}, 
-        {value: 5, label:"iCal" } ];
+        {value: 3, label:"Add to Yahoo! Calendar"} ]
+      if(this.options.webcalProvided) this.source.push( {value: 4, label:"Add to 30boxes"}, {value: 5, label:"iCal" } );
     },
   
     toggleMenu: function( event ) {
