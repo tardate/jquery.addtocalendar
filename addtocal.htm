@@ -45,16 +45,22 @@
   $(document).ready(function() {
   
     $('.addtocal').addtocal({
-      webcalProvided:false,
+      icalEnabled:false,
+      vcalEnabled:false,
       getEventDetails: function( element ) {
         var start = new Date();
         var end = new Date();
         end.setTime(end.getTime() + 60 * 60 * 1000);
         return { 
-          webcalurl: 'webcal://', 
+          webcalurl: null,
+          icalurl: null,
+          vcalurl: null, 
           start: start, end: end, 
-          title: element.attr('id'), details: element.html(), 
-          location: null, url: null};
+          title: element.attr('id'), 
+          details: element.html(), 
+          location: null, 
+          url: null
+          };
       },
     });
     

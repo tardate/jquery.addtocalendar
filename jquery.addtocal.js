@@ -21,10 +21,13 @@
         collision: "none"
       },
       selectedCalendarTarget: null,
-      webcalProvided: true,
+      icalEnabled: true,
+      vcalEnabled: true,
       getEventDetails: function( element ) {
         return { 
-          webcalurl: 'webcal://', 
+          webcalurl: 'webcal://site.ics', 
+          icalurl: 'http://site.ics', 
+          vcalurl: 'http://site.vcs', 
           start: new Date(), end: new Date(), 
           title: null, details: null, 
           location: null, url: null};
@@ -73,11 +76,14 @@
             "http://30boxes.com/add.php?webcal=" + encodeURIComponent( eventDetails.webcalurl ) : null );
           break;
         case 5:// iCal 
-          link=( eventDetails.webcalurl ? eventDetails.webcalurl : null );
+          link=( eventDetails.icalurl ? eventDetails.icalurl : null );
+          break;
+        case 6:// vCal 
+          link=( eventDetails.vcalurl ? eventDetails.vcalurl : null );
           break;
         default:
         }
-        if(link) window.open(link, '_blank');
+        if(link) window.open(link);
       },
     },
     _create: function() {
@@ -140,7 +146,8 @@
         {value: 1, label:"Add to Google Calendar"}, 
         {value: 2, label:"Add to Live Calendar"}, 
         {value: 3, label:"Add to Yahoo! Calendar"} ]
-      if(this.options.webcalProvided) this.source.push( {value: 4, label:"Add to 30boxes"}, {value: 5, label:"iCal" } );
+      if(this.options.icalEnabled) this.source.push( {value: 4, label:"Add to 30boxes"}, {value: 5, label:"iCal" } );
+      if(this.options.vcalEnabled) this.source.push( {value: 6, label:"vCalendar"} );
     },
   
     toggleMenu: function( event ) {
@@ -153,10 +160,6 @@
       } else {
       	this.close();
       }
-    },
-  
-    xxx: function( element ) {
-      return 'xyz';
     },
     
     close: function( event ) {
