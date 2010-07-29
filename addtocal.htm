@@ -45,12 +45,21 @@
   <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
   <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js'></script>
 
+	<script type='text/javascript' src='libs/rfc3339date.js'></script>
 	<script type='text/javascript' src='jquery.addtocal.js'></script>
 
   <script type='text/javascript'>
   $(document).ready(function() {
   
-    $('.addtocal').addtocal( );
+    $('.addtocal').addtocal({
+      getEventDetails: function( element ) {
+        return { 
+          webcalurl: 'webcal://', 
+          start: new Date(), end: new Date(), 
+          title: element.attr('id'), details: element.html(), 
+          location: null, url: null};
+      },
+    });
     
   });
   </script>
