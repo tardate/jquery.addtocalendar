@@ -1,6 +1,5 @@
 /*
- * jQuery.addtocal v1.0-dev
- *
+ * jQuery.addtocal
  * 
  * Copyright (c) 2010 Paul GALLAGHER
  * Dual licensed under the MIT or GPL Version 2 licenses:

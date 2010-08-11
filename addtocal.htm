@@ -4,34 +4,40 @@
   <title>jquery.addtocal Demo</title>
 	<link rel='stylesheet' type='text/css' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/south-street/jquery-ui.css' />
 	<link rel='stylesheet' type='text/css' href='jquery.addtocal.css' />
+	<!-- hcalendar is only included for an hCalendar event markup example. It is NOT required for jquery.addtocal -->
+	<link rel="profile" href="http://microformats.org/profile/hcalendar">
   <style type='text/css'>
   
-  	body {
-  		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-  		margin: 0 30px;
-  	}
-  	
-  	h1 {
-  		margin: 0 0 1em;
-  		padding: 0.5em;
-  	}
-  	
-  	p.description {
-  		font-size: 0.8em;
-  		padding: 1em;
-  		position: absolute;
-  		top: 3.2em;
-  		margin-right: 400px;
-  	}
-  
-  	div.addtocal {
-  	 background-color:#EFEFEF;
-  	 display: inline-block;
-  	 margin:0 1em;
-  	 padding:10px;
-  	 text-align:center;
-  	 width: 220px;
-  	}
+    /* styles here are purely for the purpose of the demo and are not essential for addtocal functionality */
+    body {
+    	font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    	font-size: 12px;
+    	margin: 0 50px;
+    }
+    h1 {
+    }
+    p.description {
+    }
+    .addtocal {
+      background-color:#CCCCCC;
+      display: inline-block;
+      margin:0 1em 0 0;
+      padding:10px;
+      text-align:center;
+      width: 220px;
+    }
+    .addtocal:hover {
+      background-color:#DDDDDD;
+    }
+    .addtocal .summary {
+      font-size: 14px;
+      font-weight:bold;
+    }
+    .addtocal .date {
+      font-weight:bold;
+    }
+    .addtocal .description {
+    }
   	
   </style>
 
@@ -45,19 +51,45 @@
   $(document).ready(function() {
   
     $('.addtocal').addtocal({
+      /* ical and vcal require an ics or vcs file to be served. 
+       * Since we don't have a server for this demo, these features are disabled.
+       * As a result the 30boxes, iCal and vCalendar menu links will not appear
+       */
       icalEnabled:false,
       vcalEnabled:false,
+        
+      /* getEventDetails is the most critical function to provide. 
+       * It is called when a user selects a calendar to add an event to.
+       * The element parameter is the jQuery object for the event invoked. 
+       * You must return an object packed with the relevant event details.
+       * How you determine the event attributes will depend on your page.
+       * The example below illustrates how to handle two formats of event markup. 
+       */
       getEventDetails: function( element ) {
-        var start = new Date();
-        var end = new Date();
-        end.setTime(end.getTime() + 60 * 60 * 1000);
+        var 
+          dtstart_element = element.find('.dtstart'), start,
+          dtend_element = element.find('.dtend'), end,
+          title_element = element.find('.summary'), title,
+          details_element = element.find('.description'), details;
+          
+        start = dtstart_element.length ? dtstart_element.attr('title') : new Date();
+        if(dtend_element.length) {
+          end = dtend_element.attr('title');
+        } else {
+          end = new Date();
+          end.setTime(end.getTime() + 60 * 60 * 1000);
+        }
+        title = title_element.length ? title_element.html() : element.attr('id');
+        details = details_element.length ? details_element.html() : element.html();
+        
         return { 
           webcalurl: null,
           icalurl: null,
           vcalurl: null, 
-          start: start, end: end, 
-          title: element.attr('id'), 
-          details: element.html(), 
+          start: start, 
+          end: end, 
+          title: title, 
+          details: details, 
           location: null, 
           url: null
           };
@@ -69,11 +101,35 @@
 </head>
 <body>
 	<h1>jquery.addtocal Demo</h1>
-	<p class="description">This demonstrates a basic add-to-cal function.</p>
+	<p class="description">This demonstrates the basic add-to-cal function.</p>
 	
-	<div id='event-1' class='addtocal'>Add event #1</div>
+	<div class="calendar-examples">
+	
+  	<div id='event-1' class='addtocal'>Basic event holder</div>
+  
+  	<div id='event-2' class='addtocal vevent'>
+    	<div class="summary">hCalendar annotated event</div>
+    	<span class="dtstart date" title="20100908T070000Z">8th Aug 2010</span>
+      <span class="dtend date" title="20100908T080000Z">7-8am UTC</span>
+    	<div class="description">
+    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+    	Sed quam sem, tincidunt sit amet blandit vitae, vehicula sit amet sem. 
+    	Quisque aliquam commodo lorem vel facilisis.</div>
+    </div>
+  
+  </div>
 
-	<div id='event-2' class='addtocal'>Add event #2</div>
+<pre>
+/*
+* jQuery.addtocal
+* 
+* Copyright (c) 2010 Paul GALLAGHER
+* Dual licensed under the MIT or GPL Version 2 licenses:
+*   http://www.opensource.org/licenses/mit-license.php
+*   http://www.gnu.org/licenses/gpl.html
+*   
+*/
+</pre>
 
 </body>
 </html>

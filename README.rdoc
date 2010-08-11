@@ -1,0 +1,16 @@
+= jQuery.addtocal
+
+
+== Copyright
+Copyright (c) 2010 Paul GALLAGHER
+
+Dual licensed under the MIT or GPL Version 2 licenses:
+* [http://www.opensource.org/licenses/mit-license.php]
+* [http://www.gnu.org/licenses/gpl.html]
+
+== Other References
+
+* Google Calendar [http://www.google.com/googlecalendar/event_publisher_guide.html]
+* Windows Live Calendar [http://mailcall.spaces.live.com/blog/cns!CC9301187A51FE33!49778.entry]
+* Yahoo!, Google, iCal [http://davelms.co.uk/2006/09/04/add-to-calendar/]
+
