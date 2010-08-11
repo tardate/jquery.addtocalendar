@@ -123,7 +123,7 @@
       	  self.toggleMenu();
       	});
       this._initSource();
-      
+
       this.menu = $( "<ul></ul>" )
       	.addClass( "ui-addtocal" )
       	.appendTo( $( this.options.appendTo || "body", doc )[0] )
@@ -138,17 +138,17 @@
       				self.previous = previous;
       			}
             self.options.selectedCalendarTarget = item.value;
-      			self._trigger( "select", event, self.options ); // , self.options.getEventDetails( $(this) )
+      			self._trigger( "select", event, self.options );
       
       			self.close( event );
       			self.selectedItem = item;
-      		}
+      		},
       	})
       	.zIndex( this.element.zIndex() + 1 )
-      	// workaround for jQuery bug #5781 http://dev.jquery.com/ticket/5781
       	.css({ top: 0, left: 0 })
       	.hide()
       	.data( "menu" );
+      
       if ( $.fn.bgiframe ) {
       	 this.menu.element.bgiframe();
       }
@@ -175,7 +175,7 @@
         if(value.enabled(self)) self.source.push( {value: value.value, label: value.label } );
       });
     },
-  
+ 
     toggleMenu: function( event ) {
       content = this.source;
       if ( content.length && ! ( this.menu.element.is(":visible") ) ) {
@@ -187,7 +187,7 @@
       	this.close();
       }
     },
-    
+          
     close: function( event ) {
       clearTimeout( this.closing );
       if ( this.menu.element.is(":visible") ) {
