@@ -103,7 +103,10 @@
         
       select: function(event, ui) {
         var eventDetails = ui.sanitizeEventDetails( ui.getEventDetails($(this)) );
-        var link =  ui.calendars[ ui.selectedCalendarTarget ].formatlink(eventDetails);
+        var calendar_provider = $.grep(ui.calendars, function(element, index){
+          return (element.value == ui.selectedCalendarTarget);
+        });
+        var link =  calendar_provider[0].formatlink(eventDetails);
         if(link) window.open(link);
       },
     },
@@ -169,7 +172,7 @@
       var self = this;
       self.source=[];
       $.each( this.options.calendars, function(index, value) {
-        if(value.enabled(self)) self.source.push( {value: index, label: value.label } );
+        if(value.enabled(self)) self.source.push( {value: value.value, label: value.label } );
       });
     },
   
