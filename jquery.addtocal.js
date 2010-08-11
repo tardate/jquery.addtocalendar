@@ -1,7 +1,7 @@
 /*
  * jQuery.addtocal
  * 
- * Copyright (c) 2010 Paul GALLAGHER
+ * Copyright (c) 2010 Paul GALLAGHER http://tardate.com
  * Dual licensed under the MIT or GPL Version 2 licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
@@ -10,81 +10,106 @@
 
 (function($) {
   
-  $.widget("ui.addtocal", 
+  $.widget("tardate.AddToCal", 
   {
     options: {
+      
+      calendars : [ 
+        {value: 1, 
+          label:"Add to Google Calendar", 
+          enabled : function(addtocal) { return true; }, 
+          formatlink : function(eventDetails) {
+            return "http://www.google.com/calendar/event?action=TEMPLATE&trp=false" +
+            "&text=" + eventDetails.title + 
+            "&dates=" + eventDetails.start + 
+            "/" + eventDetails.end +
+            "&location=" + eventDetails.location +
+            "&details=" + eventDetails.details +
+            "&sprop=" + eventDetails.url;
+          } }, 
+        {value: 2, label:"Add to Live Calendar", 
+          enabled : function(addtocal) { return true; }, 
+          formatlink : function(eventDetails) {
+            return "http://calendar.live.com/calendar/calendar.aspx?rru=addevent" +
+            "&dtstart=" + eventDetails.start +
+            "&dtend=" + eventDetails.end +
+            "&summary=" + eventDetails.title + 
+            "&location=" + eventDetails.location;
+          } }, 
+        {value: 3, label:"Add to Yahoo! Calendar", 
+          enabled : function(addtocal) { return true; }, 
+          formatlink : function(eventDetails) {
+            var minsDuration = ( Date.parse(eventDetails.end) - Date.parse(eventDetails.start) ) / 60 / 1000;
+            var durationString = (minsDuration / 60).toPaddedString(2) + (minsDuration%60).toPaddedString(2);
+            return "http://calendar.yahoo.com/?v=60" + 
+            "&DUR=" + durationString +
+            "&TITLE=" + eventDetails.title + 
+            "&ST=" + eventDetails.start +  
+            "&in_loc=" + eventDetails.location +
+            "&DESC=" + eventDetails.details +
+            "&URL=" + eventDetails.url;
+          } },
+        {value: 4, label:"Add to 30boxes", 
+          enabled : function(addtocal) { return addtocal.options.icalEnabled; }, 
+          formatlink : function(eventDetails) {
+            return ( eventDetails.webcalurl ? 
+            "http://30boxes.com/add.php?webcal=" + encodeURIComponent( eventDetails.webcalurl ) : null );
+          } }, 
+        {value: 5, label:"iCal", 
+          enabled : function(addtocal) { return addtocal.options.icalEnabled; }, 
+          formatlink : function(eventDetails) {
+            return (eventDetails.icalurl ? eventDetails.icalurl : null);
+          } },
+        {value: 6, label:"vCalendar",
+          enabled : function(addtocal) { return addtocal.options.vcalEnabled; }, 
+          formatlink : function(eventDetails) {
+            return ( eventDetails.vcalurl ? eventDetails.vcalurl : null );
+          } }
+      ],
+        
+      selectedCalendarTarget: null,
+      icalEnabled: true,
+      vcalEnabled: true,
+        
+      getEventDetails: function( element ) {
+        return { 
+          webcalurl: 'webcal://site.ics', 
+          icalurl: 'http://site.ics', 
+          vcalurl: 'http://site.vcs', 
+          start: new Date(), 
+          end: new Date(), 
+          title: null, details: null, 
+          location: null, url: null};
+      },
+        
+      sanitizeEventDetails: function( eventDetails ) {
+        eventDetails.title = ( eventDetails.title ? encodeURIComponent( eventDetails.title ) : '' );
+        eventDetails.start = ( typeof eventDetails.start.toRFC3339UTCString == 'function' ?
+          eventDetails.start.toRFC3339UTCString(true,true) : eventDetails.start );
+        eventDetails.end = ( typeof  eventDetails.end.toRFC3339UTCString == 'function' ?
+          eventDetails.end.toRFC3339UTCString(true,true) : eventDetails.end );
+        eventDetails.location = ( eventDetails.location ? encodeURIComponent( eventDetails.location ) : '' );
+        eventDetails.details = ( eventDetails.details ? encodeURIComponent( eventDetails.details ) : '' );
+        eventDetails.url = ( eventDetails.url ? encodeURIComponent( eventDetails.url ) : '' );
+        return eventDetails;
+      }, 
+      
       appendTo: "body",
       position: {
         my: "left top",
         at: "left bottom",
         collision: "none"
       },
-      selectedCalendarTarget: null,
-      icalEnabled: true,
-      vcalEnabled: true,
-      getEventDetails: function( element ) {
-        return { 
-          webcalurl: 'webcal://site.ics', 
-          icalurl: 'http://site.ics', 
-          vcalurl: 'http://site.vcs', 
-          start: new Date(), end: new Date(), 
-          title: null, details: null, 
-          location: null, url: null};
-      },
+        
       select: function(event, ui) {
-        var link; 
-        var eventDetails = ui.getEventDetails($(this));
-        var 
-          title = ( eventDetails.title ? encodeURIComponent( eventDetails.title ) : '' ),
-          start = ( typeof eventDetails.start.toRFC3339UTCString == 'function' ?
-            eventDetails.start.toRFC3339UTCString(true,true) : eventDetails.start ),
-          end = ( typeof  eventDetails.end.toRFC3339UTCString == 'function' ?
-            eventDetails.end.toRFC3339UTCString(true,true) : eventDetails.end ),
-          location = ( eventDetails.location ? encodeURIComponent( eventDetails.location ) : '' ),
-          details = ( eventDetails.details ? encodeURIComponent( eventDetails.details ) : '' ),
-          url = ( eventDetails.url ? encodeURIComponent( eventDetails.url ) : '' );
-          
-        switch( ui.selectedCalendarTarget ) {
-        case 1: //google
-          link = "http://www.google.com/calendar/event?action=TEMPLATE&trp=false" +
-          "&text=" + title + 
-          "&dates=" + start + 
-          "/" + end +
-          "&location=" + location +
-          "&details=" + details +
-          "&sprop=" + url;
-          break;
-        case 2:// yahoo 
-          link="http://calendar.yahoo.com/?v=60" + 
-          "&DUR=0400" +
-          "&TITLE=" + title + 
-          "&ST=" + start +  
-          "&in_loc=" + location +
-          "&DESC=" + details +
-          "&URL=" + url;
-          break;
-        case 3:// live 
-          link="http://calendar.live.com/calendar/calendar.aspx?rru=addevent" +
-          "&dtstart=" + start +
-          "&dtend=" + end +
-          "&summary=" + title + 
-          "&location=" + location;
-          break;
-        case 4:// 30boxes 
-          link=( eventDetails.webcalurl ? 
-            "http://30boxes.com/add.php?webcal=" + encodeURIComponent( eventDetails.webcalurl ) : null );
-          break;
-        case 5:// iCal 
-          link=( eventDetails.icalurl ? eventDetails.icalurl : null );
-          break;
-        case 6:// vCal 
-          link=( eventDetails.vcalurl ? eventDetails.vcalurl : null );
-          break;
-        default:
-        }
+        var eventDetails = ui.sanitizeEventDetails( ui.getEventDetails($(this)) );
+        var link =  ui.calendars[ ui.selectedCalendarTarget ].formatlink(eventDetails);
         if(link) window.open(link);
       },
     },
+      
+    source:[],
+      
     _create: function() {
       var self = this,
       	doc = this.element[ 0 ].ownerDocument;
@@ -141,18 +166,17 @@
     },
   
     _initSource: function() {
-      this.source = [ 
-        {value: 1, label:"Add to Google Calendar"}, 
-        {value: 2, label:"Add to Live Calendar"}, 
-        {value: 3, label:"Add to Yahoo! Calendar"} ]
-      if(this.options.icalEnabled) this.source.push( {value: 4, label:"Add to 30boxes"}, {value: 5, label:"iCal" } );
-      if(this.options.vcalEnabled) this.source.push( {value: 6, label:"vCalendar"} );
+      var self = this;
+      self.source=[];
+      $.each( this.options.calendars, function(index, value) {
+        if(value.enabled(self)) self.source.push( {value: index, label: value.label } );
+      });
     },
   
     toggleMenu: function( event ) {
       content = this.source;
       if ( content.length && ! ( this.menu.element.is(":visible") ) ) {
-        $('.ui-addtocal').addtocal( 'close' );
+        $('.ui-addtocal').AddToCal( 'close' );
       	content = this._normalize( content );
       	this._suggest( content );
       	this._trigger( "open" );
@@ -223,7 +247,7 @@
     },
     
     widget: function() {
-    return this.menu.element;
+      return this.menu.element;
     }
     
   });
