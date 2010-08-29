@@ -120,6 +120,7 @@
       	.addClass( "ui-addtocal" )
       	.bind( "click.addtocal", function( event ) {
       	  event.preventDefault();
+      	  event.stopPropagation();
       	  self.toggleMenu();
       	});
       this._initSource();
