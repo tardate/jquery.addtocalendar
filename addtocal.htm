@@ -44,8 +44,8 @@
   <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
   <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js'></script>
 
-	<script type='text/javascript' src='libs/rfc3339date.js'></script>
-	<script type='text/javascript' src='jquery.addtocal.js'></script>
+  <script type='text/javascript' src='libs/rfc3339date.js'></script>
+  <script type='text/javascript' src='jquery.addtocal.js'></script>
 
   <script type='text/javascript'>
   $(document).ready(function() {
@@ -83,6 +83,7 @@
         title = title_element.length ? title_element.html() : element.attr('id');
         details = details_element.length ? details_element.html() : element.html();
         
+        // return the required event structure
         return { 
           webcalurl: null,
           icalurl: null,
@@ -101,26 +102,26 @@
   </script>
 </head>
 <body>
-	<h1>jquery.addtocal Demo</h1>
-	<p class="description">This demonstrates the basic add-to-calendar function. 
-	For more information and source files, see the project's <a href="http://github.com/tardate/jquery.addtocalendar">github repository</a>.</p>
-	
-	<div class="calendar-examples">
-	
-  	<div id='event-1' class='addtocal'>Basic event holder (click me)</div>
+  <h1>jquery.addtocal Demo</h1>
+  <p class="description">This demonstrates the basic add-to-calendar function. 
+  For more information and source files, see the project's <a href="http://github.com/tardate/jquery.addtocalendar">github repository</a>.</p>
+
+  <div class="calendar-examples">
   
-  	<div id='event-2' class='addtocal vevent'>
-    	<div class="summary">hCalendar annotated event</div>
-    	<span class="dtstart date" title="20100908T070000Z">8th Aug 2010</span>
+    <div id='event-1' class='addtocal'>Basic event holder (click me)</div>
+    
+    <div id='event-2' class='addtocal vevent'>
+      <div class="summary">hCalendar annotated event</div>
+      <span class="dtstart date" title="20100908T070000Z">8th Aug 2010</span>
       <span class="dtend date" title="20100908T080000Z">7-8am UTC</span>
-    	<div class="description">
-    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-    	Sed quam sem, tincidunt sit amet blandit vitae, vehicula sit amet sem. 
-    	Quisque aliquam commodo lorem vel facilisis. (click me)</div>
+      <div class="description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Sed quam sem, tincidunt sit amet blandit vitae, vehicula sit amet sem. 
+        Quisque aliquam commodo lorem vel facilisis. (click me)
+      </div>
     </div>
-  
+    
   </div>
-
-
+  
 </body>
 </html>

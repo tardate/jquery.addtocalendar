@@ -12,17 +12,65 @@ Supported calendar systems:
 * Any iCal-compatible desktop application
 * Any vCalendar-compatible desktop application
 
-See the addtocal.htm demo file for an example of how to initialize and use jquery.addtocal.
+See the {addtocal.htm}[http://github.com/tardate/jquery.addtocalendar/blob/master//addtocal.htm] demo file for
+an example of how to initialize and use jquery.addtocal.
 
 Using jquery.addtocal is simply a matter of initializing the widget, and attaching it to any DOM element that will
 hold a calendarable event in your application.
 
 You need to implement one method when initializing jquery.addtocal: getEventDetails( element ).
-It is called when a user selects a calendar to add an event to. 
-The element parameter is the jQuery object for the event invoked. 
+It is called when a user selects a calendar to add an event to.
+The element parameter is the jQuery object for the event invoked.
 You must return an object packed with the relevant event details.
-How you determine the event attributes will depend on your page structure, and whether you are using a standard markup such as 
+How you determine the event attributes will depend on your page structure, and whether you are using a standard markup such as
 the {hCalendar microformat}[http://microformats.org/wiki/hcalendar].
+
+=== Widget Initialzation
+Here's an example of the minimal initialisation require. This example attaches the addtocal widget to all elements with the class 'addtocal'.
+
+  $(document).ready(function() {
+    
+    $('.addtocal').AddToCal({
+      // ical and vcal require an ics or vcs file to be served. 
+      // Disable these features if reqired (as a result the 30boxes, iCal and vCalendar menu links will not appear)
+      icalEnabled:false,
+      vcalEnabled:false,
+        
+      getEventDetails: function( element ) {
+
+        ... [implement whatever is required to parse 'element' into the required event structure] ...
+              
+        // return the required event structure
+        return { 
+          webcalurl: null,
+          icalurl: null,
+          vcalurl: null, 
+          start: start, 
+          end: end, 
+          title: title, 
+          details: details, 
+          location: null, 
+          url: null
+          };
+      },
+    });
+    
+  });
+
+=== Required getEventDetails event structure
+
+The structure returned from getEventDetails has the following members:
+* webcalurl: full url to webcal resource (if supported) e.g. webcal://mydomain/events/1.ics
+* icalurl: full url to iCal resource (if supported) e.g. http://mydomain/events/1.ics
+* vcalurl: full url to vCalendar resource (if supported) e.g. http://mydomain/events/1.vcs
+* start: start time of the event (javascript date object) 
+* end: end time of the event (javascript date object) 
+* title: event title text 
+* details: event details text 
+* location: event location text 
+* url: full url to information about the event e.g. http://mydomain/events/1.html
+  
+   
 
 == Source
 For more information and source files, see the project's {github repository}[http://github.com/tardate/jquery.addtocalendar].
