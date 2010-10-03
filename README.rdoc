@@ -1,16 +1,48 @@
 = jQuery.addtocal
 
+jquery.addtocal is a jQuery UI widget that provides "Add to Calendar" functionality for any website.
+
+Given event details, it allows users to add the event to any supported calendar system.
+
+Supported calendar systems:
+* Google Calendar
+* Microsoft Live Calendar
+* Yahoo! Calendar
+* 30boxes
+* Any iCal-compatible desktop application
+* Any vCalendar-compatible desktop application
+
+See the addtocal.htm demo file for an example of how to initialize and use jquery.addtocal.
+
+Using jquery.addtocal is simply a matter of initializing the widget, and attaching it to any DOM element that will
+hold a calendarable event in your application.
+
+You need to implement one method when initializing jquery.addtocal: getEventDetails( element ).
+It is called when a user selects a calendar to add an event to. 
+The element parameter is the jQuery object for the event invoked. 
+You must return an object packed with the relevant event details.
+How you determine the event attributes will depend on your page structure, and whether you are using a standard markup such as 
+the {hCalendar microformat}[http://microformats.org/wiki/hcalendar].
+
+== Source
+For more information and source files, see the project's {github repository}[http://github.com/tardate/jquery.addtocalendar].
+Feel free to fork and enhance!
+
+== Dependencies
+
+* {jQuery 1.4.x}[http://jquery.com/]
+* {jQuery UI 1.8.x}[http://jqueryui.com/]
+* {rfc3339date.js}[http://github.com/tardate/rfc3339date.js]
 
 == Copyright
-Copyright (c) 2010 Paul GALLAGHER
+Copyright (c) 2010 Paul GALLAGHER http://tardate.com
 
-Dual licensed under the MIT or GPL Version 2 licenses:
-* [http://www.opensource.org/licenses/mit-license.php]
-* [http://www.gnu.org/licenses/gpl.html]
+Dual licensed under the {MIT}[http://www.opensource.org/licenses/mit-license.php] or
+{GPL Version 2}[http://www.gnu.org/licenses/gpl.html] licenses.
 
 == Other References
 
-* Google Calendar [http://www.google.com/googlecalendar/event_publisher_guide.html]
-* Windows Live Calendar [http://mailcall.spaces.live.com/blog/cns!CC9301187A51FE33!49778.entry]
-* Yahoo!, Google, iCal [http://davelms.co.uk/2006/09/04/add-to-calendar/]
-
+* {Google Calendar}[http://www.google.com/googlecalendar/event_publisher_guide.html]
+* {Windows Live Calendar}[http://mailcall.spaces.live.com/blog/cns!CC9301187A51FE33!49778.entry]
+* {Yahoo!, Google, iCal}[http://davelms.co.uk/2006/09/04/add-to-calendar/]
+* {hCalendar microformat}[http://microformats.org/wiki/hcalendar]

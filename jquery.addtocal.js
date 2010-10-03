@@ -14,6 +14,11 @@
   {
     options: {
       
+      /*
+       * calendars is a collection of all the supported calendars and the method for formating
+       * the calendar link in each case. If you want to use a calendar system not supported here, you can 
+       * extend or modify this array as required in widget setup.
+       */
       calendars : [ 
         {value: 1, 
           label:"Add to Google Calendar", 
@@ -66,11 +71,19 @@
             return ( eventDetails.vcalurl ? eventDetails.vcalurl : null );
           } }
       ],
-        
-      selectedCalendarTarget: null,
+      
+      /* icalEnabled: set if iCal links are to be supported (requires you to provide an iCal format resource) */
       icalEnabled: true,
+      /* vcalEnabled: set if vCalendar links are to be supported (requires you to provide an vCalendar format resource) */
       vcalEnabled: true,
         
+      /* getEventDetails is the most critical function to provide. 
+       * It is called when a user selects a calendar to add an event to.
+       * The element parameter is the jQuery object for the event invoked. 
+       * You must return an object packed with the relevant event details.
+       * How you determine the event attributes will depend on your page.
+       * The example below illustrates how to handle two formats of event markup. 
+       */
       getEventDetails: function( element ) {
         return { 
           webcalurl: 'webcal://site.ics', 
@@ -82,6 +95,10 @@
           location: null, url: null};
       },
         
+        
+      /*
+       * sanitizeEventDetails cleans up and normalises the event details provided by getEventDetails
+       */
       sanitizeEventDetails: function( eventDetails ) {
         eventDetails.title = ( eventDetails.title ? encodeURIComponent( eventDetails.title ) : '' );
         eventDetails.start = ( typeof eventDetails.start.toRFC3339UTCString == 'function' ?
@@ -94,13 +111,17 @@
         return eventDetails;
       }, 
       
+      /* records the currently selected calendar service */  
+      selectedCalendarTarget: null,
+      /* positioning of the addtocal widget */
       appendTo: "body",
       position: {
         my: "left top",
         at: "left bottom",
         collision: "none"
       },
-        
+      
+      /* main method called on selection of calendar service */
       select: function(event, ui) {
         var eventDetails = ui.sanitizeEventDetails( ui.getEventDetails($(this)) );
         var calendar_provider = $.grep(ui.calendars, function(element, index){

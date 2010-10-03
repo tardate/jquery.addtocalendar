@@ -71,7 +71,8 @@
           dtend_element = element.find('.dtend'), end,
           title_element = element.find('.summary'), title,
           details_element = element.find('.description'), details;
-          
+        
+        // in this demo, we attempt to get hCalendar attributes or otherwise just dummy the values
         start = dtstart_element.length ? dtstart_element.attr('title') : new Date();
         if(dtend_element.length) {
           end = dtend_element.attr('title');
@@ -101,7 +102,8 @@
 </head>
 <body>
 	<h1>jquery.addtocal Demo</h1>
-	<p class="description">This demonstrates the basic add-to-cal function.</p>
+	<p class="description">This demonstrates the basic add-to-calendar function. 
+	For more information and source files, see the project's <a href="http://github.com/tardate/jquery.addtocalendar">github repository</a>.</p>
 	
 	<div class="calendar-examples">
 	
@@ -119,17 +121,6 @@
   
   </div>
 
-<pre>
-/*
-* jQuery.addtocal
-* 
-* Copyright (c) 2010 Paul GALLAGHER
-* Dual licensed under the MIT or GPL Version 2 licenses:
-*   http://www.opensource.org/licenses/mit-license.php
-*   http://www.gnu.org/licenses/gpl.html
-*   
-*/
-</pre>
 
 </body>
 </html>
