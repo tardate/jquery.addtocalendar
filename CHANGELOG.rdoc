@@ -1,0 +1,3 @@
+== 0.1.0 released 2010-10-03
+
+* Initial release

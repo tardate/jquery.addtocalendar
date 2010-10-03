@@ -1,11 +1,11 @@
 /*
- * jQuery.addtocal
+ * jQuery.addtocal v0.1.0
+ * http://github.com/tardate/jquery.addtocalendar
  * 
  * Copyright (c) 2010 Paul GALLAGHER http://tardate.com
  * Dual licensed under the MIT or GPL Version 2 licenses:
  *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
- *   
+ *   http://www.gnu.org/licenses/gpl.html 
  */
 
 (function($) {
