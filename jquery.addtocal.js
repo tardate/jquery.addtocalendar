@@ -153,6 +153,10 @@
       if ( $.fn.bgiframe ) {
       	 this.menu.element.bgiframe();
       }
+      
+      //Close the popup if click elsewhere in the window
+      $(document).bind("click", function(event, ui) { self.close( event ); });
+       
     },
   
     destroy: function() {
