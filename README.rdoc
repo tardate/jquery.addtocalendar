@@ -28,6 +28,13 @@ the {hCalendar microformat}[http://microformats.org/wiki/hcalendar].
 === Widget Initialzation
 Here's an example of the minimal initialisation require. This example attaches the addtocal widget to all elements with the class 'addtocal'.
 
+  <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+  <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js'></script>
+
+  <script type='text/javascript' src='javascripts/rfc3339date.js'></script>
+  <script type='text/javascript' src='javascripts/jquery.addtocal.js'></script>
+
+  <script type='text/javascript'>
   $(document).ready(function() {
     
     $('.addtocal').AddToCal({
@@ -56,6 +63,7 @@ Here's an example of the minimal initialisation require. This example attaches t
     });
     
   });
+  </script>
 
 === Required getEventDetails event structure
 
