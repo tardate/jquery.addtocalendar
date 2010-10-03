@@ -12,7 +12,7 @@ Supported calendar systems:
 * Any vCalendar-compatible desktop application
 
 See the {addtocal.htm}[http://github.com/tardate/jquery.addtocalendar/blob/master//addtocal.htm] demo file for
-an example of how to initialize and use jquery.addtocal.
+an example of how to initialize and use the widget. You can find and use a live demo at http://tardate.com/addtocal/addtocal.htm
 
 Using jquery.addtocal is simply a matter of initializing the widget, and attaching it to any DOM element that will
 hold a calendarable event in your application.
