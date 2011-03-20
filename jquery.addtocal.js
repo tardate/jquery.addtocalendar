@@ -129,7 +129,7 @@
         });
         var link =  calendar_provider[0].formatlink(eventDetails);
         if(link) window.open(link);
-      },
+      }
     },
       
     source:[],
@@ -164,7 +164,7 @@
       
       			self.close( event );
       			self.selectedItem = item;
-      		},
+      		}
       	})
       	.zIndex( this.element.zIndex() + 1 )
       	.css({ top: 0, left: 0 })
@@ -203,7 +203,7 @@
     },
  
     toggleMenu: function( event ) {
-      content = this.source;
+      var content = this.source;
       if ( content.length && ! ( this.menu.element.is(":visible") ) ) {
         $('.ui-addtocal').AddToCal( 'close' );
       	content = this._normalize( content );
