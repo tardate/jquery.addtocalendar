@@ -1,72 +1,72 @@
 /*
- * jQuery.addtocal v0.1.0
+ * jQuery.addtocal v0.1.1
  * http://github.com/tardate/jquery.addtocalendar
- * 
+ *
  * Copyright (c) 2010 Paul GALLAGHER http://tardate.com
  * Dual licensed under the MIT or GPL Version 2 licenses:
  *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html 
+ *   http://www.gnu.org/licenses/gpl.html
  */
 
 (function($) {
   
-  $.widget("tardate.AddToCal", 
+  $.widget("tardate.AddToCal",
   {
     options: {
       
       /*
        * calendars is a collection of all the supported calendars and the method for formating
-       * the calendar link in each case. If you want to use a calendar system not supported here, you can 
+       * the calendar link in each case. If you want to use a calendar system not supported here, you can
        * extend or modify this array as required in widget setup.
        */
-      calendars : [ 
-        {value: 1, 
-          label:"Add to Google Calendar", 
-          enabled : function(addtocal) { return true; }, 
+      calendars : [
+        {value: 1,
+          label:"Add to Google Calendar",
+          enabled : function(addtocal) { return true; },
           formatlink : function(eventDetails) {
             return "http://www.google.com/calendar/event?action=TEMPLATE&trp=false" +
-            "&text=" + eventDetails.title + 
-            "&dates=" + eventDetails.start + 
+            "&text=" + eventDetails.title +
+            "&dates=" + eventDetails.start +
             "/" + eventDetails.end +
             "&location=" + eventDetails.location +
             "&details=" + eventDetails.details +
             "&sprop=" + eventDetails.url;
-          } }, 
-        {value: 2, label:"Add to Live Calendar", 
-          enabled : function(addtocal) { return true; }, 
+          } },
+        {value: 2, label:"Add to Live Calendar",
+          enabled : function(addtocal) { return true; },
           formatlink : function(eventDetails) {
             return "http://calendar.live.com/calendar/calendar.aspx?rru=addevent" +
             "&dtstart=" + eventDetails.start +
             "&dtend=" + eventDetails.end +
-            "&summary=" + eventDetails.title + 
+            "&summary=" + eventDetails.title +
             "&location=" + eventDetails.location;
-          } }, 
-        {value: 3, label:"Add to Yahoo! Calendar", 
-          enabled : function(addtocal) { return true; }, 
+          } },
+        {value: 3, label:"Add to Yahoo! Calendar",
+          enabled : function(addtocal) { return true; },
           formatlink : function(eventDetails) {
             var minsDuration = ( Date.parse(eventDetails.end) - Date.parse(eventDetails.start) ) / 60 / 1000;
             var durationString = (minsDuration / 60).toPaddedString(2) + (minsDuration%60).toPaddedString(2);
-            return "http://calendar.yahoo.com/?v=60" + 
+            return "http://calendar.yahoo.com/?v=60" +
             "&DUR=" + durationString +
-            "&TITLE=" + eventDetails.title + 
-            "&ST=" + eventDetails.start +  
+            "&TITLE=" + eventDetails.title +
+            "&ST=" + eventDetails.start +
             "&in_loc=" + eventDetails.location +
             "&DESC=" + eventDetails.details +
             "&URL=" + eventDetails.url;
           } },
-        {value: 4, label:"Add to 30boxes", 
-          enabled : function(addtocal) { return addtocal.options.icalEnabled; }, 
+        {value: 4, label:"Add to 30boxes",
+          enabled : function(addtocal) { return addtocal.options.icalEnabled; },
           formatlink : function(eventDetails) {
-            return ( eventDetails.webcalurl ? 
+            return ( eventDetails.webcalurl ?
             "http://30boxes.com/add.php?webcal=" + encodeURIComponent( eventDetails.webcalurl ) : null );
-          } }, 
-        {value: 5, label:"iCal", 
-          enabled : function(addtocal) { return addtocal.options.icalEnabled; }, 
+          } },
+        {value: 5, label:"iCal",
+          enabled : function(addtocal) { return addtocal.options.icalEnabled; },
           formatlink : function(eventDetails) {
             return (eventDetails.icalurl ? eventDetails.icalurl : null);
           } },
         {value: 6, label:"vCalendar",
-          enabled : function(addtocal) { return addtocal.options.vcalEnabled; }, 
+          enabled : function(addtocal) { return addtocal.options.vcalEnabled; },
           formatlink : function(eventDetails) {
             return ( eventDetails.vcalurl ? eventDetails.vcalurl : null );
           } }
@@ -77,21 +77,21 @@
       /* vcalEnabled: set if vCalendar links are to be supported (requires you to provide an vCalendar format resource) */
       vcalEnabled: true,
         
-      /* getEventDetails is the most critical function to provide. 
+      /* getEventDetails is the most critical function to provide.
        * It is called when a user selects a calendar to add an event to.
-       * The element parameter is the jQuery object for the event invoked. 
+       * The element parameter is the jQuery object for the event invoked.
        * You must return an object packed with the relevant event details.
        * How you determine the event attributes will depend on your page.
-       * The example below illustrates how to handle two formats of event markup. 
+       * The example below illustrates how to handle two formats of event markup.
        */
       getEventDetails: function( element ) {
-        return { 
-          webcalurl: 'webcal://site.ics', 
-          icalurl: 'http://site.ics', 
-          vcalurl: 'http://site.vcs', 
-          start: new Date(), 
-          end: new Date(), 
-          title: null, details: null, 
+        return {
+          webcalurl: 'webcal://site.ics',
+          icalurl: 'http://site.ics',
+          vcalurl: 'http://site.vcs',
+          start: new Date(),
+          end: new Date(),
+          title: null, details: null,
           location: null, url: null};
       },
         
@@ -109,9 +109,9 @@
         eventDetails.details = ( eventDetails.details ? encodeURIComponent( eventDetails.details ) : '' );
         eventDetails.url = ( eventDetails.url ? encodeURIComponent( eventDetails.url ) : '' );
         return eventDetails;
-      }, 
+      },
       
-      /* records the currently selected calendar service */  
+      /* records the currently selected calendar service */
       selectedCalendarTarget: null,
       /* positioning of the addtocal widget */
       appendTo: "body",
