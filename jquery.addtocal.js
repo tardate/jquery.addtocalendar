@@ -107,6 +107,13 @@
           eventDetails.end.toRFC3339UTCString(true,true) : eventDetails.end );
         eventDetails.location = ( eventDetails.location ? encodeURIComponent( eventDetails.location ) : '' );
         eventDetails.details = ( eventDetails.details ? encodeURIComponent( eventDetails.details ) : '' );
+        // avoid 414 error due to overlong url
+        var MAX_DETAILS_LENGTH = 1550;
+        if (eventDetails.details.length > MAX_DETAILS_LENGTH) {
+          eventDetails.details = eventDetails.details.substr(0, MAX_DETAILS_LENGTH);
+          eventDetails.details.replace(/%[^0-9]*$/, "");
+          eventDetails.details += "...";
+        }
         eventDetails.url = ( eventDetails.url ? encodeURIComponent( eventDetails.url ) : '' );
         return eventDetails;
       },
