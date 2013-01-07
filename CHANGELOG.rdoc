@@ -1,6 +1,6 @@
 == 0.1.1 released 2011-03-20
 
-* Patch for javascript compatibility in oldre IF (thanks to nfarina)
+* Patch for javascript compatibility in older IE (thanks to nfarina)
 
 == 0.1.0 released 2010-10-03
 
