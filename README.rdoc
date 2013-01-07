@@ -1,4 +1,4 @@
-= jQuery UI AddToCal widget v0.1.0
+= jQuery UI AddToCal widget v0.1.2
 
 AddToCal is a jQuery UI widget that provides "Add to Calendar" functionality for any website.
 Given event details, it allows users to add the event to any supported calendar system.

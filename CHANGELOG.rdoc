@@ -1,3 +1,7 @@
+== 0.1.2 released 2013-01-08
+
+* Truncate details to avoid 414 error on Google Calendar site (thanks to woodchuck)
+
 == 0.1.1 released 2011-03-20
 
 * Patch for javascript compatibility in older IE (thanks to nfarina)

@@ -7,7 +7,7 @@
 	<!-- hcalendar is only included for an hCalendar event markup example. It is NOT required for jquery.addtocal -->
 	<link rel="profile" href="http://microformats.org/profile/hcalendar">
   <style type='text/css'>
-  
+
     /* styles here are purely for the purpose of the demo and are not essential for addtocal functionality */
     body {
     	font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
@@ -38,7 +38,7 @@
     }
     .addtocal .description {
     }
-  	
+
   </style>
 
   <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
@@ -49,29 +49,29 @@
 
   <script type='text/javascript'>
   $(document).ready(function() {
-  
+
     $('.addtocal').AddToCal({
-      /* ical and vcal require an ics or vcs file to be served. 
+      /* ical and vcal require an ics or vcs file to be served.
        * Since we don't have a server for this demo, these features are disabled.
        * As a result the 30boxes, iCal and vCalendar menu links will not appear
        */
       icalEnabled:false,
       vcalEnabled:false,
-        
-      /* getEventDetails is the most critical function to provide. 
+
+      /* getEventDetails is the most critical function to provide.
        * It is called when a user selects a calendar to add an event to.
-       * The element parameter is the jQuery object for the event invoked. 
+       * The element parameter is the jQuery object for the event invoked.
        * You must return an object packed with the relevant event details.
        * How you determine the event attributes will depend on your page.
-       * The example below illustrates how to handle two formats of event markup. 
+       * The example below illustrates how to handle two formats of event markup.
        */
       getEventDetails: function( element ) {
-        var 
+        var
           dtstart_element = element.find('.dtstart'), start,
           dtend_element = element.find('.dtend'), end,
           title_element = element.find('.summary'), title,
           details_element = element.find('.description'), details;
-        
+
         // in this demo, we attempt to get hCalendar attributes or otherwise just dummy the values
         start = dtstart_element.length ? dtstart_element.attr('title') : new Date();
         if(dtend_element.length) {
@@ -82,46 +82,46 @@
         }
         title = title_element.length ? title_element.html() : element.attr('id');
         details = details_element.length ? details_element.html() : element.html();
-        
+
         // return the required event structure
-        return { 
+        return {
           webcalurl: null,
           icalurl: null,
-          vcalurl: null, 
-          start: start, 
-          end: end, 
-          title: title, 
-          details: details, 
-          location: null, 
+          vcalurl: null,
+          start: start,
+          end: end,
+          title: title,
+          details: details,
+          location: null,
           url: null
           };
       },
     });
-    
+
   });
   </script>
 </head>
 <body>
   <h1>jQuery UI AddToCal Widget Demo</h1>
-  <p class="description">This demonstrates the basic add-to-calendar function. 
+  <p class="description">This demonstrates the basic add-to-calendar function.
   For more information and source files, see the project's <a href="http://github.com/tardate/jquery.addtocalendar">github repository</a>.</p>
 
   <div class="calendar-examples">
-  
+
     <div id='event-1' class='addtocal'>Basic event holder (click me)</div>
-    
+
     <div id='event-2' class='addtocal vevent'>
       <div class="summary">hCalendar annotated event</div>
       <span class="dtstart date" title="20100908T070000Z">8th Aug 2010</span>
       <span class="dtend date" title="20100908T080000Z">7-8am UTC</span>
       <div class="description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-        Sed quam sem, tincidunt sit amet blandit vitae, vehicula sit amet sem. 
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Sed quam sem, tincidunt sit amet blandit vitae, vehicula sit amet sem.
         Quisque aliquam commodo lorem vel facilisis. (click me)
       </div>
     </div>
-    
+
   </div>
-  
+
 </body>
 </html>
